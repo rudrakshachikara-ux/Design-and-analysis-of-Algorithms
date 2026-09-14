@@ -1,0 +1,103 @@
+#include <stdio.h>
+
+struct Edge
+{
+    int source;
+    int dest;
+    int weight;
+};
+
+int parent[20];
+
+void input(struct Edge edge[], int e)
+{
+    int i;
+
+    printf("Enter the source, destination and weight of the edges:\n");
+
+    for (i = 0; i < e; i++)
+    {
+        scanf("%d %d %d",
+              &edge[i].source,
+              &edge[i].dest,
+              &edge[i].weight);
+    }
+}
+
+int find(int x)
+{
+    while (parent[x] != x)
+    {
+        x = parent[x];
+    }
+
+    return x;
+}
+
+int main()
+{
+    int node, edges;
+    int i, j;
+    int count = 0, cost = 0;
+
+    struct Edge edge[20];
+
+    printf("Enter number of nodes = ");
+    scanf("%d", &node);
+
+    printf("Enter number of edges = ");
+    scanf("%d", &edges);
+
+    input(edge, edges);
+
+    for (i = 0; i < node; i++)
+    {
+        parent[i] = i;
+    }
+
+    for (i = 0; i < edges - 1; i++)
+    {
+        for (j = 0; j < edges - i - 1; j++)
+        {
+            if (edge[j].weight > edge[j + 1].weight)
+            {
+                struct Edge tempEdge;
+
+                tempEdge = edge[j];
+                edge[j] = edge[j + 1];
+                edge[j + 1] = tempEdge;
+            }
+        }
+    }
+
+    printf("\nMinimum Spanning Tree:\n");
+
+    for (i = 0; i < edges; i++)
+    {
+        int a = find(edge[i].source);
+        int b = find(edge[i].dest);
+
+        if (a != b)
+        {
+            printf("%d -- %d = %d\n",
+                   edge[i].source,
+                   edge[i].dest,
+                   edge[i].weight);
+
+            cost = cost + edge[i].weight;
+
+            parent[a] = b;
+
+            count++;
+
+            if (count == node - 1)
+            {
+                break;
+            }
+        }
+    }
+
+    printf("\nMinimum cost = %d\n", cost);
+
+    return 0;
+}
