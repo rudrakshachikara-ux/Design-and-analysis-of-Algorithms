@@ -1,0 +1,64 @@
+#include <stdio.h>
+
+int main() {
+    int m, n, i, j;
+
+    printf("Enter size of first array: ");
+    scanf("%d", &m);
+
+    int nums1[m];
+
+    printf("Enter elements of first sorted array: ");
+    for (i = 0; i < m; i++) {
+        scanf("%d", &nums1[i]);
+    }
+
+    printf("Enter size of second array: ");
+    scanf("%d", &n);
+
+    int nums2[n];
+
+    printf("Enter elements of second sorted array: ");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &nums2[i]);
+    }
+
+    // Merge the two arrays
+    int merged[m + n];
+    i = 0;
+    j = 0;
+    int k = 0;
+
+    while (i < m && j < n) {
+        if (nums1[i] < nums2[j]) {
+            merged[k++] = nums1[i++];
+        } else {
+            merged[k++] = nums2[j++];
+        }
+    }
+
+    // Copy remaining elements of nums1
+    while (i < m) {
+        merged[k++] = nums1[i++];
+    }
+
+    // Copy remaining elements of nums2
+    while (j < n) {
+        merged[k++] = nums2[j++];
+    }
+
+    int total = m + n;
+    float median;
+
+    if (total % 2 == 1) {
+        // Odd number of elements
+        median = merged[total / 2];
+    } else {
+        // Even number of elements
+        median = (merged[total / 2 - 1] + merged[total / 2]) / 2.0;
+    }
+
+    printf("Median = %.2f\n", median);
+
+    return 0;
+}
