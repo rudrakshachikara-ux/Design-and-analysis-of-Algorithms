@@ -1,0 +1,316 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include "data.h"
+
+//bubble sort
+void bubble(int arr[], int n)
+{
+    int temp;
+    for (int i = 0; i < n-1 ; i++)
+    {
+        for (int j = 0; j < n - i -1; j++)
+        {
+            if ( arr[j] > arr[j+1])
+            { //swapping the elements
+
+                temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
+            }
+        }
+    }
+}
+//selection SORT
+void selection(int arr[], int n)
+{
+    int min , temp;
+    for ( int i = 0; i < n-1 ; i++)
+    {
+        min = i;
+        for (int j = i+1; j < n; j++)
+        {
+            if (arr[j] < arr [min])
+            {
+                min = j;
+            }
+        }
+        temp = arr[i];
+        arr[i] = arr[min];
+        arr[min] = temp;
+    }
+}
+//insertion sort
+void insertion (int arr[], int n)
+{
+    int k , j;
+    for (int i = 0; i < n ; i++)
+    {
+        k = arr[i];
+        j = i-1;
+    
+        while ( j>= 0 &&  arr[j]< k)
+        {
+            arr[j+1]=arr[j];
+            j--;
+        }
+        arr[j+1] = k;
+    }
+}
+//Merge sort
+void merge(int arr[], int left, int mid, int right)
+{
+    int n = right - left + 1;
+    int temp[n];
+
+    int i = left;
+    int j = mid + 1;
+    int k = 0;
+
+    while (i <= mid && j <= right)
+    {
+        if (arr[i] <= arr[j])
+        {
+            temp[k] = arr[i];
+            i++;
+        }
+        else
+        {
+            temp[k] = arr[j];
+            j++;
+        }
+
+        k++;
+    }
+
+    while (i <= mid)
+    {
+        temp[k] = arr[i];
+        i++;
+        k++;
+    }
+
+    while (j <= right)
+    {
+        temp[k] = arr[j];
+        j++;
+        k++;
+    }
+
+    for (i = 0; i < n; i++)
+    {
+        arr[left + i] = temp[i];
+    }
+}
+
+void mergeSort(int arr[], int left, int right)
+{
+    if (left < right)
+    {
+        int mid = left + (right - left) / 2;
+
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+
+        merge(arr, left, mid, right);
+    }
+}
+
+//QuickSort
+void quickSort(int arr[], int low, int high)
+{
+    if (low < high)
+    {
+        int pivot = arr[high];
+        int i = low;
+
+        for (int j = low; j < high; j++)
+        {
+            if (arr[j] < pivot)
+            {
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+
+                i++;
+            }
+        }
+
+        int temp = arr[i];
+        arr[i] = arr[high];
+        arr[high] = temp;
+
+        quickSort(arr, low, i - 1);
+        quickSort(arr, i + 1, high);
+    }
+}
+
+//LinearSearch
+int linearSearch(int arr[], int n, int target)
+{
+    for (int i = 0; i < n; i++)
+    {
+        if (arr[i] == target)
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+//BinarySearch
+int binarySearch(int arr[], int n, int target)
+{
+    int low = 0;
+    int high = n - 1;
+
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+
+        if (arr[mid] == target)
+        {
+            return mid;
+        }
+        else if (arr[mid] < target)
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid - 1;
+        }
+    }
+    return -1;
+}
+
+
+int main()
+{
+    int choice, target, result;
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    int temp[n];
+
+    clock_t start, end;
+    double time_taken;
+
+    while (1)
+    {
+        printf("\n===== MENU =====\n");
+        printf("1. Bubble Sort\n");
+        printf("2. Selection Sort\n");
+        printf("3. Insertion Sort\n");
+        printf("4. Merge Sort\n");
+        printf("5. Quick Sort\n");
+        printf("6. Linear Search\n");
+        printf("7. Binary Search\n");
+        printf("8. Exit\n");
+
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
+
+        if (choice == 8)
+        {
+            printf("Program Ended.\n");
+            break;
+        }
+
+        // Copy original array from data.h
+        for (int i = 0; i < n; i++)
+        {
+            temp[i] = arr[i];
+        }
+
+        switch (choice)
+        {
+            case 1:
+                start = clock();
+                bubble(temp, n);
+                end = clock();
+
+                time_taken = (double)(end - start) / CLOCKS_PER_SEC;
+                printf("Bubble Sort Time: %lf seconds\n", time_taken);
+                break;
+
+            case 2:
+                start = clock();
+                selection(temp, n);
+                end = clock();
+
+                time_taken = (double)(end - start) / CLOCKS_PER_SEC;
+                printf("Selection Sort Time: %lf seconds\n", time_taken);
+                break;
+
+            case 3:
+                start = clock();
+                insertion(temp, n);
+                end = clock();
+
+                time_taken = (double)(end - start) / CLOCKS_PER_SEC;
+                printf("Insertion Sort Time: %lf seconds\n", time_taken);
+                break;
+
+            case 4:
+                start = clock();
+                mergeSort(temp, 0, n - 1);
+                end = clock();
+
+                time_taken = (double)(end - start) / CLOCKS_PER_SEC;
+                printf("Merge Sort Time: %lf seconds\n", time_taken);
+                break;
+
+            case 5:
+                start = clock();
+                quickSort(temp, 0, n - 1);
+                end = clock();
+
+                time_taken = (double)(end - start) / CLOCKS_PER_SEC;
+                printf("Quick Sort Time: %lf seconds\n", time_taken);
+                break;
+
+            case 6:
+                printf("Enter element to search: ");
+                scanf("%d", &target);
+
+                start = clock();
+                result = linearSearch(temp, n, target);
+                end = clock();
+
+                if (result == -1)
+                    printf("Element not found.\n");
+                else
+                    printf("Element found at index %d\n", result);
+
+                time_taken = (double)(end - start) / CLOCKS_PER_SEC;
+                printf("Linear Search Time: %lf seconds\n", time_taken);
+                break;
+
+            case 7:
+                printf("Enter element to search: ");
+                scanf("%d", &target);
+
+                // Sort first because binary search requires sorted data
+                quickSort(temp, 0, n - 1);
+
+                start = clock();
+                result = binarySearch(temp, n, target);
+                end = clock();
+
+                if (result == -1)
+                    printf("Element not found.\n");
+                else
+                    printf("Element found at sorted index %d\n", result);
+
+                time_taken = (double)(end - start) / CLOCKS_PER_SEC;
+                printf("Binary Search Time: %lf seconds\n", time_taken);
+                break;
+
+            default:
+                printf("Invalid choice!\n");
+        }
+    }
+
+    return 0;
+}
