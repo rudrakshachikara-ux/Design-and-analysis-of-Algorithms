@@ -1,0 +1,42 @@
+import matplotlib.pyplot as plt
+
+# Sorting algorithm names
+algorithms = [
+    "Bubble Sort",
+    "Selection Sort",
+    "Insertion Sort",
+    "Merge Sort",
+    "Quick Sort"
+]
+
+# Execution times in seconds
+times = [
+    0.120,
+    0.085,
+    0.065,
+    0.025,
+    0.018
+]
+
+# Create bar graph
+plt.figure(figsize=(10, 6))
+
+bars = plt.bar(algorithms, times)
+
+# Labels and title
+plt.xlabel("Sorting Algorithms")
+plt.ylabel("Execution Time (seconds)")
+plt.title("Comparison of Sorting Algorithm Execution Times")
+
+# Add values on top of bars
+for bar, time in zip(bars, times):
+    plt.text(
+        bar.get_x() + bar.get_width() / 2,
+        bar.get_height() + 0.002,
+        f"{time:.3f} sec",
+        ha="center"
+    )
+
+plt.grid(axis="y", linestyle="--", alpha=0.5)
+plt.tight_layout()
+plt.show()
