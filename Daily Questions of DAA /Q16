@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <string.h>
+
+int main()
+{
+    int T;
+    scanf("%d", &T);
+
+    while (T--)
+    {
+        char password[100];
+        int i;
+        int length;
+
+        int small = 0;
+        int capital = 0;
+        int number = 0;
+        int special = 0;
+
+        scanf("%s", password);
+
+        length = strlen(password);
+
+        // Password must have at least 10 characters
+        if (length < 10)
+        {
+            printf("NO\n");
+            continue;
+        }
+
+        // Check every character
+        for (i = 0; i < length; i++)
+        {
+            // Check lowercase letter
+            if (password[i] >= 'a' && password[i] <= 'z')
+            {
+                small = 1;
+            }
+
+            // First and last character are not considered
+            if (i != 0 && i != length - 1)
+            {
+                // Check uppercase letter
+                if (password[i] >= 'A' && password[i] <= 'Z')
+                {
+                    capital = 1;
+                }
+
+                // Check digit
+                if (password[i] >= '0' && password[i] <= '9')
+                {
+                    number = 1;
+                }
+
+                // Check special character
+                if (password[i] == '@' ||
+                    password[i] == '#' ||
+                    password[i] == '%' ||
+                    password[i] == '&' ||
+                    password[i] == '?')
+                {
+                    special = 1;
+                }
+            }
+        }
+
+        // Check all conditions
+        if (small == 1 &&
+            capital == 1 &&
+            number == 1 &&
+            special == 1)
+        {
+            printf("YES\n");
+        }
+        else
+        {
+            printf("NO\n");
+        }
+    }
+
+    return 0;
+}
