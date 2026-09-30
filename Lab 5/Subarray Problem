@@ -1,0 +1,42 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+int subarr(int arr[], int n)
+{
+    int Csum = arr[0];
+    int Msum = arr[0];
+    for (int i = 0; i < n; i++)
+    {
+        if (Csum + arr[i] > arr[i])
+        {
+            Csum = Csum + arr[i];
+        }
+        else
+        {
+            Csum = arr[i];
+        }
+        if (Csum > Msum)
+        {
+            Msum = Csum;
+        }
+    }
+    return Msum;
+}
+
+int main()
+{
+    int n;
+    printf("enter the amount of elements to be placed in array = \n");
+    scanf("%d",&n);
+
+    int arr[n];
+    for(int i = 0; i < n ; i++)
+    {
+        printf("enter the %d element of the array = ", i+1);
+        scanf("%d", &arr[i]);
+    }
+    printf("\n The max sum subaray of this array is = \n");
+    int result = subarr(arr, n);
+    printf("%d", result);
+    return 0;
+}
