@@ -1,0 +1,54 @@
+#include <stdio.h>
+
+int main() {
+    int n, i, j;
+    int start[20], finish[20];
+    int rooms[20];
+    int roomCount = 0;
+    int temp;
+
+    printf("Enter number of intervals: ");
+    scanf("%d", &n);
+
+    printf("Enter start and finish time:\n");
+    for (i = 0; i < n; i++) {
+        scanf("%d %d", &start[i], &finish[i]);
+    }
+
+    // Sort intervals by start time
+    for (i = 0; i < n - 1; i++) {
+        for (j = i + 1; j < n; j++) {
+            if (start[i] > start[j]) {
+                temp = start[i];
+                start[i] = start[j];
+                start[j] = temp;
+
+                temp = finish[i];
+                finish[i] = finish[j];
+                finish[j] = temp;
+            }
+        }
+    }
+
+    // Assign intervals to rooms
+    for (i = 0; i < n; i++) {
+        int assigned = 0;
+
+        for (j = 0; j < roomCount; j++) {
+            if (rooms[j] <= start[i]) {
+                rooms[j] = finish[i];
+                assigned = 1;
+                break;
+            }
+        }
+
+        if (assigned == 0) {
+            rooms[roomCount] = finish[i];
+            roomCount++;
+        }
+    }
+
+    printf("Minimum rooms required = %d\n", roomCount);
+
+    return 0;
+}
