@@ -1,0 +1,72 @@
+#include <stdio.h>
+
+#define SIZE 10
+
+void bucketSort(int arr[], int n) {
+
+    int buckets[SIZE][SIZE] = {0};
+    int count[SIZE] = {0};
+
+    // Find maximum element
+    int max = arr[0];
+
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > max) {
+            max = arr[i];
+        }
+    }
+
+    // Distribute elements into buckets
+    for (int i = 0; i < n; i++) {
+
+        int index = (arr[i] * SIZE) / (max + 1);
+
+        buckets[index][count[index]] = arr[i];
+        count[index]++;
+    }
+
+    // Sort each bucket using Bubble Sort
+    for (int i = 0; i < SIZE; i++) {
+
+        for (int j = 0; j < count[i] - 1; j++) {
+
+            for (int k = 0; k < count[i] - j - 1; k++) {
+
+                if (buckets[i][k] > buckets[i][k + 1]) {
+
+                    int temp = buckets[i][k];
+                    buckets[i][k] = buckets[i][k + 1];
+                    buckets[i][k + 1] = temp;
+                }
+            }
+        }
+    }
+
+    // Combine all buckets
+    int index = 0;
+
+    for (int i = 0; i < SIZE; i++) {
+
+        for (int j = 0; j < count[i]; j++) {
+
+            arr[index] = buckets[i][j];
+            index++;
+        }
+    }
+}
+
+int main() {
+
+    int arr[] = {42, 32, 33, 52, 37, 47, 51};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    bucketSort(arr, n);
+
+    printf("Sorted array: ");
+
+    for (int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+
+    return 0;
+}
