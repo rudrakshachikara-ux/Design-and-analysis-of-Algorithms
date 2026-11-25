@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char text[100], pattern[50];
+    int textHash = 0, patternHash = 0;
+
+    printf("Enter text: ");
+    scanf("%s", text);
+
+    printf("Enter pattern: ");
+    scanf("%s", pattern);
+
+    int n = strlen(text);
+    int m = strlen(pattern);
+
+    // Calculate pattern hash
+    for(int i = 0; i < m; i++)
+        patternHash += pattern[i];
+
+    // Check each possible position
+    for(int i = 0; i <= n - m; i++) {
+
+        textHash = 0;
+
+        for(int j = 0; j < m; j++)
+            textHash += text[i + j];
+
+        // Compare hash values
+        if(textHash == patternHash) {
+
+            int match = 1;
+
+            // Verify characters
+            for(int j = 0; j < m; j++) {
+                if(text[i + j] != pattern[j]) {
+                    match = 0;
+                    break;
+                }
+            }
+
+            if(match)
+                printf("Pattern found at index %d\n", i);
+        }
+    }
+
+    return 0;
+}
