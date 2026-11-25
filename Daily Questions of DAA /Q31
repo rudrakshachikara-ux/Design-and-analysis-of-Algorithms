@@ -1,0 +1,102 @@
+1.Code in c
+#include <stdio.h>
+#include <string.h>
+
+int isAnagram(char s[], char p[], int start) {
+    int count[256] = {0};
+    int m = strlen(p);
+
+    for (int i = 0; i < m; i++) {
+        count[(unsigned char)p[i]]++;
+        count[(unsigned char)s[start + i]]--;
+    }
+
+    for (int i = 0; i < 256; i++) {
+        if (count[i] != 0)
+            return 0;
+    }
+
+    return 1;
+}
+
+int main() {
+    char s[100], p[100];
+
+    printf("Enter string: ");
+    scanf("%99s", s);
+
+    printf("Enter pattern: ");
+    scanf("%99s", p);
+
+    int n = strlen(s);
+    int m = strlen(p);
+
+    printf("Anagrams found at index: ");
+
+    for (int i = 0; i <= n - m; i++) {
+        if (isAnagram(s, p, i)) {
+            printf("%d ", i);
+        }
+    }
+
+    return 0;
+}
+
+
+
+
+2.Optimized code in c.
+#include <stdio.h>
+#include <string.h>
+
+int same(int a[], int b[]) {
+    for (int i = 0; i < 256; i++) {
+        if (a[i] != b[i])
+            return 0;
+    }
+    return 1;
+}
+
+int main() {
+    char s[100], p[100];
+    int pattern[256] = {0};
+    int window[256] = {0};
+
+    printf("Enter string: ");
+    scanf("%99s", s);
+
+    printf("Enter pattern: ");
+    scanf("%99s", p);
+
+    int n = strlen(s);
+    int m = strlen(p);
+
+    if (m > n) {
+        printf("No anagrams found.");
+        return 0;
+    }
+
+    // Frequency of pattern
+    for (int i = 0; i < m; i++) {
+        pattern[(unsigned char)p[i]]++;
+        window[(unsigned char)s[i]]++;
+    }
+
+    printf("Anagrams found at index: ");
+
+    // Sliding window
+    for (int i = 0; i <= n - m; i++) {
+
+        if (same(pattern, window)) {
+            printf("%d ", i);
+        }
+
+        // Move the window
+        if (i < n - m) {
+            window[(unsigned char)s[i]]--;
+            window[(unsigned char)s[i + m]]++;
+        }
+    }
+
+    return 0;
+}
