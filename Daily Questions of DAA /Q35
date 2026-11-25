@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <limits.h>
+
+int main() {
+    int a[] = {2, 2, 3, 1, 5, 5, 4};
+    int n = 7;
+
+    long long first = LLONG_MIN;
+    long long second = LLONG_MIN;
+    long long third = LLONG_MIN;
+
+    for (int i = 0; i < n; i++) {
+
+        // Ignore duplicates
+        if (a[i] == first || a[i] == second || a[i] == third)
+            continue;
+
+        if (a[i] > first) {
+            third = second;
+            second = first;
+            first = a[i];
+        }
+        else if (a[i] > second) {
+            third = second;
+            second = a[i];
+        }
+        else if (a[i] > third) {
+            third = a[i];
+        }
+    }
+
+    if (third == LLONG_MIN)
+        printf("Third maximum does not exist");
+    else
+        printf("Third maximum = %lld", third);
+
+    return 0;
+}
