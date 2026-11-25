@@ -1,0 +1,25 @@
+#include <stdio.h>
+
+int main() {
+    int n;
+    float low = 0, high, mid;
+
+    printf("Enter a number: ");
+    scanf("%d", &n);
+
+    high = n;
+
+    // Binary search for square root
+    for (int i = 0; i < 50; i++) {
+        mid = (low + high) / 2;
+
+        if (mid * mid > n)
+            high = mid;
+        else
+            low = mid;
+    }
+
+    printf("Square root = %.2f", mid);
+
+    return 0;
+}
