@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+
+    char s[1000];
+
+    printf("Enter a string: ");
+    scanf("%999s", s);
+
+    int last[256];
+
+    // Initialize all characters with -1
+    for (int i = 0; i < 256; i++) {
+        last[i] = -1;
+    }
+
+    int start = 0;
+    int maxLen = 0;
+
+    for (int i = 0; s[i] != '\0'; i++) {
+
+        unsigned char ch = s[i];
+
+        // Check if character is repeated
+        if (last[ch] >= start) {
+            start = last[ch] + 1;
+        }
+
+        // Update last occurrence
+        last[ch] = i;
+
+        // Calculate window length
+        int len = i - start + 1;
+
+        if (len > maxLen) {
+            maxLen = len;
+        }
+    }
+
+    printf("Longest substring length = %d", maxLen);
+
+    return 0;
+}
