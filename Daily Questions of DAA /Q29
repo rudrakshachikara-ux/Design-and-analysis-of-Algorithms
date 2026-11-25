@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+
+    char s[1000];
+
+    printf("Enter a string: ");
+    scanf("%999s", s);
+
+    int n = strlen(s);
+
+    int maxLen = 1;
+    int start = 0;
+
+    for (int i = 0; i < n; i++) {
+
+        int left = i;
+        int right = i;
+
+        // Odd length palindrome
+        while (left >= 0 && right < n &&
+               s[left] == s[right]) {
+
+            if (right - left + 1 > maxLen) {
+                maxLen = right - left + 1;
+                start = left;
+            }
+
+            left--;
+            right++;
+        }
+
+        left = i;
+        right = i + 1;
+
+        // Even length palindrome
+        while (left >= 0 && right < n &&
+               s[left] == s[right]) {
+
+            if (right - left + 1 > maxLen) {
+                maxLen = right - left + 1;
+                start = left;
+            }
+
+            left--;
+            right++;
+        }
+    }
+
+    printf("Longest Palindromic Substring: ");
+
+    for (int i = start; i < start + maxLen; i++) {
+        printf("%c", s[i]);
+    }
+
+    printf("\nLength: %d", maxLen);
+
+    return 0;
+}
