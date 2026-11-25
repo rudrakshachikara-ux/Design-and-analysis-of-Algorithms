@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node *next;
+};
+
+int main() {
+    int size, n;
+
+    printf("Enter number of nodes: ");
+    scanf("%d", &size);
+
+    struct Node *head = NULL;
+    struct Node *temp = NULL;
+    struct Node *newNode;
+
+    printf("Enter elements: ");
+
+    // Create linked list
+    for (int i = 0; i < size; i++) {
+        newNode = (struct Node *)malloc(sizeof(struct Node));
+        scanf("%d", &newNode->data);
+        newNode->next = NULL;
+
+        if (head == NULL) {
+            head = newNode;
+            temp = newNode;
+        } else {
+            temp->next = newNode;
+            temp = newNode;
+        }
+    }
+
+    printf("Enter N: ");
+    scanf("%d", &n);
+
+    // Two pointers
+    struct Node *first = head;
+    struct Node *second = head;
+
+    // Move first pointer N positions
+    for (int i = 0; i < n; i++) {
+        first = first->next;
+    }
+
+    // If Nth node from end is head
+    if (first == NULL) {
+        temp = head;
+        head = head->next;
+        free(temp);
+    } else {
+        // Move both pointers
+        while (first->next != NULL) {
+            first = first->next;
+            second = second->next;
+        }
+
+        temp = second->next;
+        second->next = second->next->next;
+        free(temp);
+    }
+
+    // Display result
+    printf("List after deletion: ");
+
+    temp = head;
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+
+    return 0;
+}
