@@ -1,0 +1,71 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int compare(const void *a, const void *b) {
+    int x = *(int *)a;
+    int y = *(int *)b;
+
+    return (x > y) - (x < y);
+}
+
+int main() {
+
+    int arr[] = {3, 4, -1, 1};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    qsort(arr, n, sizeof(int), compare);
+
+    int missing = 1;
+
+    for (int i = 0; i < n; i++) {
+
+        if (arr[i] == missing) {
+            missing++;
+        }
+    }
+
+    printf("First missing positive number = %d", missing);
+
+    return 0;
+}
+//Optimized Approach – Cyclic Sort
+
+#include <stdio.h>
+
+int main() {
+
+    int arr[] = {3, 4, -1, 1};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    int i = 0;
+
+    // Place elements at their correct positions
+    while (i < n) {
+
+        if (arr[i] >= 1 && arr[i] <= n &&
+            arr[i] != arr[arr[i] - 1]) {
+
+            int correct = arr[i] - 1;
+
+            int temp = arr[i];
+            arr[i] = arr[correct];
+            arr[correct] = temp;
+        }
+        else {
+            i++;
+        }
+    }
+
+    // Find the first missing positive number
+    for (int i = 0; i < n; i++) {
+
+        if (arr[i] != i + 1) {
+            printf("First missing positive number = %d", i + 1);
+            return 0;
+        }
+    }
+
+    printf("First missing positive number = %d", n + 1);
+
+    return 0;
+}
