@@ -1,0 +1,124 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+
+    char str1[100], str2[100];
+    int freq[256] = {0};
+
+    printf("Enter first string: ");
+    scanf("%s", str1);
+
+    printf("Enter second string: ");
+    scanf("%s", str2);
+
+    int n = strlen(str1);
+    int m = strlen(str2);
+
+    if (n != m) {
+        printf("Not Anagram");
+        return 0;
+    }
+
+    // Count characters of first string
+    for (int i = 0; i < n; i++) {
+        freq[(unsigned char)str1[i]]++;
+    }
+
+    // Subtract characters of second string
+    for (int i = 0; i < m; i++) {
+        freq[(unsigned char)str2[i]]--;
+    }
+
+    // Check frequency array
+    for (int i = 0; i < 256; i++) {
+        if (freq[i] != 0) {
+            printf("Not Anagram");
+            return 0;
+        }
+    }
+
+    printf("Anagram");
+
+    return 0;
+}
+
+/*Program to detect the cycle in doubly link list.
+Hint: Use slow and fast pointer concept*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Structure of doubly linked list
+struct Node {
+    int data;
+    struct Node *prev;
+    struct Node *next;
+};
+
+// Function to create a new node
+struct Node* createNode(int data) {
+
+    struct Node *newNode =
+        (struct Node*)malloc(sizeof(struct Node));
+
+    newNode->data = data;
+    newNode->prev = NULL;
+    newNode->next = NULL;
+
+    return newNode;
+}
+
+// Function to detect cycle
+int detectCycle(struct Node *head) {
+
+    struct Node *slow = head;
+    struct Node *fast = head;
+
+    while (fast != NULL && fast->next != NULL) {
+
+        slow = slow->next;
+        fast = fast->next->next;
+
+        if (slow == fast) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+int main() {
+
+    struct Node *head = createNode(10);
+    struct Node *second = createNode(20);
+    struct Node *third = createNode(30);
+    struct Node *fourth = createNode(40);
+    struct Node *fifth = createNode(50);
+
+    // Connecting nodes
+    head->next = second;
+    second->prev = head;
+
+    second->next = third;
+    third->prev = second;
+
+    third->next = fourth;
+    fourth->prev = third;
+
+    fourth->next = fifth;
+    fifth->prev = fourth;
+
+    // Creating a cycle
+    fifth->next = third;
+    third->prev = fifth;
+
+    if (detectCycle(head)) {
+        printf("Cycle detected in doubly linked list.");
+    }
+    else {
+        printf("No cycle detected.");
+    }
+
+    return 0;
+}
